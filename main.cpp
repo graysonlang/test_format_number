@@ -1,12 +1,11 @@
 #include <cstdio>
 #include <string>
-#include <vector>
 
 // Format floating point number with fixed precision though no trailing zeros.
 std::string format_number(double n, int precision = 5) {
   // Special-case zero and thus negative zero.
   if (n == 0.0f) return "0";
-  static const int SIZE = 64;
+  static const int SIZE = 512;
   char buffer[SIZE];
   int len = snprintf(buffer, SIZE, "%.*f", precision, n);
   int i = std::min(SIZE - 1, len);
@@ -25,6 +24,13 @@ std::string format_number(double n, int precision = 5) {
   }
   return std::string(buffer);
 }
+
+
+// -----------------------------------------------------------------------------
+
+
+#include <limits>
+#include <vector>
 
 void test() {
   std::vector<double> numbers = {
@@ -77,6 +83,7 @@ void test() {
     100000.000001,
     1000000.0000001,
     10000000.00000001,
+
     .1,
     .01,
     .001,
@@ -103,10 +110,19 @@ void test() {
     10000000000000,
     100000000000000,
   };
-
   for (auto n : numbers) {
     printf("%-26.8f -> %s\n", n, format_number(n, 6).c_str());
   }
+
+  // Stress tests:
+  printf("\n%-26.8g ->\n", std::numeric_limits<double>::max());
+  printf("%s\n", format_number(std::numeric_limits<double>::max(), 0).c_str());
+
+  printf("\n%-26.8g ->\n", std::numeric_limits<double>::lowest());
+  printf("%s\n", format_number(std::numeric_limits<double>::lowest(), 0).c_str());
+
+  printf("\n%-26.8g ->\n", std::numeric_limits<double>::min());
+  printf("%s\n", format_number(std::numeric_limits<double>::min(), 313).c_str());
 }
 
 int main(int argc, const char * argv[]) {
