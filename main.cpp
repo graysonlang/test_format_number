@@ -4,7 +4,7 @@
 
 // Format floating point number with fixed precision though no trailing zeros.
 std::string format_number(double n, int precision = 5) {
-  // Special-case zero and thus negative zero.
+  // Special-case zero (and thus negative zero).
   if (n == 0.0f) return "0";
   static const int SIZE = 64;
   char buffer[SIZE];
