@@ -14,7 +14,7 @@ std::string format_number(double n, int precision = 5) {
   while(i > 0) {
     switch(buffer[i]) {
       case '.': buffer[i] = '\0'; break;
-      case '0': buffer[i] = '\0'; // Fall through to next casse.
+      case '0': buffer[i] = '\0'; // Fall through to next case.
       case '\0':
         i--;
         continue;
